@@ -1,5 +1,8 @@
 // const { ObjectId } = require('mongodb');
+const jwt = require('jsonwebtoken');
 const mongoConnection = require('./connection');
+
+const { JWT_SECRET } = process.env;
 
 const getByEmail = async (email) => {
   const usersCollection = await mongoConnection.getConnection()
@@ -36,6 +39,20 @@ const createUserModel = async ({ name, email, password }) => {
   };
 };
 
+const loginUserModel = async (email, password) => {
+  const payload = {
+    email,
+    password,
+  };
+
+  const token = jwt.sign(payload, JWT_SECRET, {
+    expiresIn: '1h',
+  });
+
+  return { token };
+};
+
 module.exports = {
   createUserModel,
+  loginUserModel,
 };

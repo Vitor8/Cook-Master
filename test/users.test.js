@@ -153,111 +153,111 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
   });
 });
 
-// describe('2 - Crie um endpoint para o login de usuários', () => {
-//   let connection;
-//   let db;
+describe('2 - Crie um endpoint para o login de usuários', () => {
+  let connection;
+  let db;
 
-//   beforeAll(async () => {
-//     connection = await MongoClient.connect(mongoDbUrl, {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     });
-//     db = connection.db('Cookmaster');
-//   });
+  beforeAll(async () => {
+    connection = await MongoClient.connect(mongoDbUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    db = connection.db('Cookmaster');
+  });
 
-//   beforeEach(async () => {
-//     await db.collection('users').deleteMany({});
-//     await db.collection('recipes').deleteMany({});
-//     const users = {
-//       name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' };
-//     await db.collection('users').insertOne(users);
-//   });
+  beforeEach(async () => {
+    await db.collection('users').deleteMany({});
+    await db.collection('recipes').deleteMany({});
+    const users = {
+      name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' };
+    await db.collection('users').insertOne(users);
+  });
 
-//   afterAll(async () => {
-//     await connection.close();
-//   });
+  afterAll(async () => {
+    await connection.close();
+  });
 
-//   it('Será validado que o campo "email" é obrigatório', async () => {
-//     await frisby
-//       .post(`${url}/login/`,
-//         {
-//           password: '12345678',
-//         })
-//       .expect('status', 401)
-//       .then((response) => {
-//         const { body } = response;
-//         const result = JSON.parse(body);
-//         expect(result.message).toBe('All fields must be filled');
-//       });
-//   });
+  it('Será validado que o campo "email" é obrigatório', async () => {
+    await frisby
+      .post(`${url}/login/`,
+        {
+          password: '12345678',
+        })
+      .expect('status', 401)
+      .then((response) => {
+        const { body } = response;
+        const result = JSON.parse(body);
+        expect(result.message).toBe('All fields must be filled');
+      });
+  });
 
-//   it('Será validado que o campo "password" é obrigatório', async () => {
-//     await frisby
-//       .post(`${url}/login/`,
-//         {
-//           email: 'erickjaquin@gmail.com',
-//         })
-//       .expect('status', 401)
-//       .then((response) => {
-//         const { body } = response;
-//         const result = JSON.parse(body);
-//         expect(result.message).toBe('All fields must be filled');
-//       });
-//   });
+  it('Será validado que o campo "password" é obrigatório', async () => {
+    await frisby
+      .post(`${url}/login/`,
+        {
+          email: 'erickjaquin@gmail.com',
+        })
+      .expect('status', 401)
+      .then((response) => {
+        const { body } = response;
+        const result = JSON.parse(body);
+        expect(result.message).toBe('All fields must be filled');
+      });
+  });
 
-//   it('Será validado que não é possível fazer login com um email inválido', async () => {
-//     await frisby
-//       .post(`${url}/login`,
-//         {
-//           email: 'erickjaquin@3.com',
-//           password: '12345678',
-//         })
-//       .expect('status', 401)
-//       .then((response) => {
-//         const { body } = response;
-//         const result = JSON.parse(body);
-//         expect(result.message).toBe('Incorrect username or password');
-//       });
-//   });
+  it('Será validado que não é possível fazer login com um email inválido', async () => {
+    await frisby
+      .post(`${url}/login`,
+        {
+          email: 'erickjaquin@3.com',
+          password: '12345678',
+        })
+      .expect('status', 401)
+      .then((response) => {
+        const { body } = response;
+        const result = JSON.parse(body);
+        expect(result.message).toBe('Incorrect username or password');
+      });
+  });
 
-//   it('Será validado que não é possível fazer login com uma senha inválida', async () => {
-//     await frisby
-//       .post(`${url}/login`,
-//         {
-//           email: 'erickjacquin@gmail.com',
-//           password: '123456',
-//         })
-//       .expect('status', 401)
-//       .then((response) => {
-//         const { body } = response;
-//         const result = JSON.parse(body);
-//         expect(result.message).toBe('Incorrect username or password');
-//       });
-//   });
+  it('Será validado que não é possível fazer login com uma senha inválida', async () => {
+    await frisby
+      .post(`${url}/login`,
+        {
+          email: 'erickjacquin@gmail.com',
+          password: '123456',
+        })
+      .expect('status', 401)
+      .then((response) => {
+        const { body } = response;
+        const result = JSON.parse(body);
+        expect(result.message).toBe('Incorrect username or password');
+      });
+  });
 
-//   it('Será validado que é possível fazer login com sucesso', async () => {
-//     await frisby
-//       .post(`${url}/users/`,
-//         {
-//           name: 'Erick Jacquin',
-//           email: 'erickjacquin@gmail.com',
-//           password: '12345678',
-//         })
-//       .expect('status', 201)
-//       .then((response) => {
-//         const { body } = response;
-//         const result = JSON.parse(body);
-//         return frisby
-//           .post(`${url}/login`,
-//             {
-//               email: result.user.email,
-//               password: '12345678',
-//             })
-//           .expect('status', 200)
-//           .then((responseLogin) => {
-//             const { json } = responseLogin;
-//             expect(json.token).not.toBeNull();
-//           });
-//       });
-//   });
-// });
+  it('Será validado que é possível fazer login com sucesso', async () => {
+    await frisby
+      .post(`${url}/users/`,
+        {
+          name: 'Erick Jacquin',
+          email: 'erickjacquin@gmail.com',
+          password: '12345678',
+        })
+      .expect('status', 201)
+      .then((response) => {
+        const { body } = response;
+        const result = JSON.parse(body);
+        return frisby
+          .post(`${url}/login`,
+            {
+              email: result.user.email,
+              password: '12345678',
+            })
+          .expect('status', 200)
+          .then((responseLogin) => {
+            const { json } = responseLogin;
+            expect(json.token).not.toBeNull();
+          });
+      });
+  });
+});

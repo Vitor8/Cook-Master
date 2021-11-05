@@ -1,5 +1,6 @@
 const {
   createUserModel,
+  loginUserModel,
 } = require('../models/usersModel');
 
 const createUsersController = async (req, res) => {
@@ -25,6 +26,17 @@ const createUsersController = async (req, res) => {
   });
 };
 
+const loginUsersController = async (req, res) => {
+  const { email, password } = req.body;
+
+  const { token } = await loginUserModel(email, password);
+
+  return res.status(200).json({
+    token,
+  });
+};
+
 module.exports = {
   createUsersController,
+  loginUsersController,
 };
