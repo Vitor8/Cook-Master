@@ -1,0 +1,28 @@
+USERS
+
+	CADASTRO
+// http POST :3000/users name='Vitor Hugo' email='v@gmail.com' password='123456789'
+app.post('/users', isDataValid, createUsersController);
+
+	LOGIN
+// http POST :3000/login password='123456789'
+// http POST :3000/login email='v@gmail.com'
+// http POST :3000/login email='erickjaquin@3.com' password='123456789'
+// http POST :3000/login email='erickjaquin@gmail.com' password='123456'
+// http POST :3000/login email='root@email.com' password='admin123456'
+app.post('/login', isLoginValid, loginUsersController);
+
+ERRO REQUISITO 2 EVALUATOR INFINITO
+
+{
+    "name": "Frango do jacquin",
+    "ingredients": "Frango",
+    "preparation": "10 min no forno"
+}
+
+{
+  "name": "Vitor Hugo",
+  "email": "v@gmail.com",
+  "password": "123456789"
+}
+
