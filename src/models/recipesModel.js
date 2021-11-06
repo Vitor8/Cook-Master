@@ -83,10 +83,36 @@ const deleteRecipeModel = async (id) => {
   await recipesCollection.deleteOne({ _id: ObjectId(id) });
 };
 
+const postImageModel = async (id) => {
+  const recipesCollection = await mongoConnection.getConnection()
+    .then((db) => db.collection('recipes'));
+
+  const recipe = await recipesCollection.findOne({ _id: ObjectId(id) });
+
+  const updatedRecipe = {
+    name: recipe.name,
+    ingredients: recipe.ingredients,
+    preparation: recipe.preparation,
+    userId: recipe.userId,
+    image: `localhost:3000/src/uploads/${id}.jpeg`,
+  };
+
+  const recipeUpdated = await mongoConnection.getConnection()
+  .then((db) => {
+    const idRecipe = new ObjectId(id);
+    return db.collection('recipes')
+      .findOneAndUpdate({ _id: idRecipe }, { $set: updatedRecipe }, { returnOriginal: false })
+      .then((result) => result.value);
+  });
+
+  return recipeUpdated;
+};
+
 module.exports = {
   createRecipesModel,
   getAllRecipesModel,
   getRecipeByIdModel,
   updateRecipeModel,
   deleteRecipeModel,
+  postImageModel,
 };

@@ -4,6 +4,7 @@ const {
   getRecipeByIdModel,
   updateRecipeModel,
   deleteRecipeModel,
+  postImageModel,
 } = require('../models/recipesModel');
 
 const createRecipesController = async (req, res) => {
@@ -61,10 +62,19 @@ const deleteRecipeController = async (req, res) => {
   return res.status(204).json('No body returned for response');
 };
 
+const postImageController = async (req, res) => {
+  const { id } = req.params;
+
+  const recipeUpdated = await postImageModel(id);
+
+  return res.status(200).json(recipeUpdated);
+};
+
 module.exports = {
   createRecipesController,
   getAllRecipesController,
   getRecipeByIdController,
   updateRecipeController,
   deleteRecipeController,
+  postImageController,
 };
