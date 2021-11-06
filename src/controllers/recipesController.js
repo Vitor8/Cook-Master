@@ -2,6 +2,7 @@ const {
   createRecipesModel,
   getAllRecipesModel,
   getRecipeByIdModel,
+  updateRecipeModel,
 } = require('../models/recipesModel');
 
 const createRecipesController = async (req, res) => {
@@ -41,8 +42,19 @@ const getRecipeByIdController = async (req, res) => {
   return res.status(200).json(recipe);
 };
 
+const updateRecipeController = async (req, res) => {
+  const { email } = req.user;
+  const { name, ingredients, preparation } = req.body;
+  const { id: recipeId } = req.params;
+
+  const newRecipe = await updateRecipeModel({ email, name, ingredients, preparation, recipeId });
+
+  return res.status(200).json(newRecipe);
+};
+
 module.exports = {
   createRecipesController,
   getAllRecipesController,
   getRecipeByIdController,
+  updateRecipeController,
 };

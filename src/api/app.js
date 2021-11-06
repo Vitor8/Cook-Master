@@ -22,6 +22,7 @@ const {
   createRecipesController,
   getAllRecipesController,
   getRecipeByIdController,
+  updateRecipeController,
 } = require('../controllers/recipesController');
 
 app.use(bodyParser.json());
@@ -35,6 +36,8 @@ app.post('/recipes', isTokenValid, isRecipeDataValid, createRecipesController);
 app.get('/recipes', getAllRecipesController);
 
 app.get('/recipes/:id', getRecipeByIdController);
+
+app.put('/recipes/:id', isTokenValid, updateRecipeController);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {

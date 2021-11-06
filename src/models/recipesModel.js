@@ -55,8 +55,30 @@ const getRecipeByIdModel = async (id) => {
   return recipe;
 };
 
+const updateRecipeModel = async ({ email, name, ingredients, preparation, recipeId }) => {
+  const userId = await getIdByEmail(email);
+
+  const updatedRecipe = {
+    name,
+    ingredients,
+    preparation,
+    userId,
+  };
+
+  const recipeUpdated = await mongoConnection.getConnection()
+    .then((db) => {
+      const idRecipe = new ObjectId(recipeId);
+      return db.collection('recipes')
+        .findOneAndUpdate({ _id: idRecipe }, { $set: updatedRecipe }, { returnOriginal: false })
+        .then((result) => result.value);
+    });
+
+  return recipeUpdated;
+};
+
 module.exports = {
   createRecipesModel,
   getAllRecipesModel,
   getRecipeByIdModel,
+  updateRecipeModel,
 };
