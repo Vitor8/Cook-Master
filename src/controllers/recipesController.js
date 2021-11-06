@@ -3,6 +3,7 @@ const {
   getAllRecipesModel,
   getRecipeByIdModel,
   updateRecipeModel,
+  deleteRecipeModel,
 } = require('../models/recipesModel');
 
 const createRecipesController = async (req, res) => {
@@ -52,9 +53,18 @@ const updateRecipeController = async (req, res) => {
   return res.status(200).json(newRecipe);
 };
 
+const deleteRecipeController = async (req, res) => {
+  const { id } = req.params;
+
+  await deleteRecipeModel(id);
+
+  return res.status(204).json('No body returned for response');
+};
+
 module.exports = {
   createRecipesController,
   getAllRecipesController,
   getRecipeByIdController,
   updateRecipeController,
+  deleteRecipeController,
 };

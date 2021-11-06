@@ -76,9 +76,17 @@ const updateRecipeModel = async ({ email, name, ingredients, preparation, recipe
   return recipeUpdated;
 };
 
+const deleteRecipeModel = async (id) => {
+  const recipesCollection = await mongoConnection.getConnection()
+    .then((db) => db.collection('recipes'));
+
+  await recipesCollection.deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports = {
   createRecipesModel,
   getAllRecipesModel,
   getRecipeByIdModel,
   updateRecipeModel,
+  deleteRecipeModel,
 };
