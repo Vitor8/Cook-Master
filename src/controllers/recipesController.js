@@ -1,5 +1,6 @@
 const {
   createRecipesModel,
+  getAllRecipesModel,
 } = require('../models/recipesModel');
 
 const createRecipesController = async (req, res) => {
@@ -19,6 +20,13 @@ const createRecipesController = async (req, res) => {
   });
 };
 
+const getAllRecipesController = async (_req, res) => {
+  const recipes = await getAllRecipesModel();
+
+  return res.status(200).json(recipes);
+};
+
 module.exports = {
   createRecipesController,
+  getAllRecipesController,
 };

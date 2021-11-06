@@ -32,6 +32,16 @@ const createRecipesModel = async (name, ingredients, preparation, email) => {
   };
 };
 
+const getAllRecipesModel = async () => {
+  const recipesCollection = await mongoConnection.getConnection()
+    .then((db) => db.collection('recipes'));
+
+  const recipes = await recipesCollection.find().toArray();
+
+  return recipes;
+};
+
 module.exports = {
   createRecipesModel,
+  getAllRecipesModel,
 };
