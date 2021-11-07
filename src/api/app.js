@@ -59,6 +59,7 @@ const upload = multer({ storage });
 
 app.put('/recipes/:id/image', upload.single('image'), isTokenValid, postImageController);
 
+// Requisito 12
 app.post('/users/admin', createAdminController);
 
 // Não remover esse end-point, ele é necessário para o avaliador
