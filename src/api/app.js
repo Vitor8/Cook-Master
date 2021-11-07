@@ -29,7 +29,8 @@ const {
 } = require('../controllers/recipesController');
 
 app.use(bodyParser.json());
-// app.use(express.static(__dirname + '/uploads'));
+
+app.use('/images', express.static(`${__dirname}/../uploads`));
 
 app.post('/users', isDataValid, createUsersController);
 

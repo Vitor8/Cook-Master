@@ -1245,116 +1245,116 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
   });
 });
 
-// describe('10 - Crie um endpoint para acessar a imagem de uma receita', () => {
-//   let connection;
-//   let db;
+describe('10 - Crie um endpoint para acessar a imagem de uma receita', () => {
+  let connection;
+  let db;
 
-//   beforeAll(async () => {
-//     connection = await MongoClient.connect(mongoDbUrl, {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     });
-//     db = connection.db('Cookmaster');
-//   });
+  beforeAll(async () => {
+    connection = await MongoClient.connect(mongoDbUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    db = connection.db('Cookmaster');
+  });
 
-//   beforeEach(async () => {
-//     await db.collection('users').deleteMany({});
-//     await db.collection('recipes').deleteMany({});
-//     const users = [
-//       { name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' },
-//       {
-//         name: 'Erick Jacquin',
-//         email: 'erickjacquin@gmail.com',
-//         password: '12345678',
-//         role: 'user',
-//       },
-//     ];
-//     await db.collection('users').insertMany(users);
-//     const ListRecipes = [
-//       {
-//         name: 'banana caramelizada',
-//         ingredients: 'banana, açúcar',
-//         preparation: 'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
-//       },
-//     ];
-//     await db.collection('recipes').insertMany(ListRecipes);
-//   });
+  beforeEach(async () => {
+    await db.collection('users').deleteMany({});
+    await db.collection('recipes').deleteMany({});
+    const users = [
+      { name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' },
+      {
+        name: 'Erick Jacquin',
+        email: 'erickjacquin@gmail.com',
+        password: '12345678',
+        role: 'user',
+      },
+    ];
+    await db.collection('users').insertMany(users);
+    const ListRecipes = [
+      {
+        name: 'banana caramelizada',
+        ingredients: 'banana, açúcar',
+        preparation: 'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
+      },
+    ];
+    await db.collection('recipes').insertMany(ListRecipes);
+  });
 
-//   afterAll(async () => {
-//     await connection.close();
-//   });
+  afterAll(async () => {
+    await connection.close();
+  });
 
-//   it('Será validado que é retornada uma imagem como resposta', async () => {
-//     const photoFile = path.resolve(__dirname, '../src/uploads/ratinho.jpg');
-//     const content = fs.createReadStream(photoFile);
-//     const formData = frisby.formData();
+  it('Será validado que é retornada uma imagem como resposta', async () => {
+    const photoFile = path.resolve(__dirname, '../src/uploads/ratinho.jpg');
+    const content = fs.createReadStream(photoFile);
+    const formData = frisby.formData();
 
-//     formData.append('image', content);
+    formData.append('image', content);
 
-//     let result;
-//     let resultRecipes;
+    let result;
+    let resultRecipes;
 
-//     await frisby
-//       .post(`${url}/login/`, {
-//         email: 'erickjacquin@gmail.com',
-//         password: '12345678',
-//       })
-//       .expect('status', 200)
-//       .then((response) => {
-//         const { body } = response;
-//         result = JSON.parse(body);
-//         return frisby
-//           .setup({
-//             request: {
-//               headers: {
-//                 Authorization: result.token,
-//                 'Content-Type': 'application/json',
-//               },
-//             },
-//           })
-//           .post(`${url}/recipes`, {
-//             name: 'Receita de frango do Jacquin',
-//             ingredients: 'Frango',
-//             preparation: '10 min no forno',
-//           })
-//           .expect('status', 201)
-//           .then((responseRecipes) => {
-//             const { body } = responseRecipes;
-//             resultRecipes = JSON.parse(body);
-//           });
-//       });
+    await frisby
+      .post(`${url}/login/`, {
+        email: 'erickjacquin@gmail.com',
+        password: '12345678',
+      })
+      .expect('status', 200)
+      .then((response) => {
+        const { body } = response;
+        result = JSON.parse(body);
+        return frisby
+          .setup({
+            request: {
+              headers: {
+                Authorization: result.token,
+                'Content-Type': 'application/json',
+              },
+            },
+          })
+          .post(`${url}/recipes`, {
+            name: 'Receita de frango do Jacquin',
+            ingredients: 'Frango',
+            preparation: '10 min no forno',
+          })
+          .expect('status', 201)
+          .then((responseRecipes) => {
+            const { body } = responseRecipes;
+            resultRecipes = JSON.parse(body);
+          });
+      });
 
-//     await frisby
-//       .setup({
-//         request: {
-//           headers: {
-//             Authorization: result.token,
-//             'Content-Type': 'application/json',
-//           },
-//         },
-//       })
-//       .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, { body: formData })
-//       .expect('status', 200);
+    await frisby
+      .setup({
+        request: {
+          headers: {
+            Authorization: result.token,
+            'Content-Type': 'application/json',
+          },
+        },
+      })
+      .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, { body: formData })
+      .expect('status', 200);
 
 
-//     await frisby
-//       .setup({
-//         request: {
-//           headers: {
-//             Authorization: result.token,
-//             'Content-Type': 'application/json'
-//           },
-//         },
-//       })
-//       .get(`${url}/images/${resultRecipes.recipe._id}.jpeg`)
-//       .expect('status', 200)
-//       .then((response) => {
-//         const { headers } = response;
-//         const symbol = Object.getOwnPropertySymbols(headers)[0]
-//         const contentType = headers[symbol]['content-type'][0]
-//         expect(contentType).toBe('image/jpeg')
+    await frisby
+      .setup({
+        request: {
+          headers: {
+            Authorization: result.token,
+            'Content-Type': 'application/json'
+          },
+        },
+      })
+      .get(`${url}/images/${resultRecipes.recipe._id}.jpeg`)
+      .expect('status', 200)
+      .then((response) => {
+        const { headers } = response;
+        const symbol = Object.getOwnPropertySymbols(headers)[0]
+        const contentType = headers[symbol]['content-type'][0]
+        expect(contentType).toBe('image/jpeg')
 
-//       });
-//   });
+      });
+  });
 
-// });
+});
