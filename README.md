@@ -2,6 +2,8 @@
 
 Projeto realizado na Trybe. O objetivo foi criar uma API onde é possível fazer o cadastro e login de pessoas usuárias, onde apenas essas pessoas poderão acessar, modificar e deletar as receitas que cadastrou.
 
+Após clonar o repositório, para ver a aplicação rodando, digite o comando `npm start` em seu terminal.
+
 ---
 
 ## Desenvolvimento
