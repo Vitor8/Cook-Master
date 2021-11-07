@@ -1,6 +1,9 @@
+const jwt = require('jsonwebtoken');
+
 const {
   createUserModel,
   loginUserModel,
+  createAdminModel,
 } = require('../models/usersModel');
 
 const createUsersController = async (req, res) => {
@@ -36,7 +39,32 @@ const loginUsersController = async (req, res) => {
   });
 };
 
+const createAdminController = async (req, res) => {
+  const token = req.headers.authorization; const secret = 'quinze';
+  const payload = jwt.verify(token, secret); const { email: emailCurrentAdmin } = payload;
+  const { name, email: emailNewAdmin, password } = req.body;
+  const admin = await createAdminModel({ emailCurrentAdmin, name, emailNewAdmin, password });
+
+  if (!admin) {
+    return res.status(403).json({
+      message: 'Only admins can register new admins',
+    });
+  }
+
+  const { id } = admin;
+
+  return res.status(201).json({
+    user: {
+      name,
+      email: emailNewAdmin,
+      role: 'admin',
+      _id: id,
+    },
+  });
+};
+
 module.exports = {
   createUsersController,
   loginUsersController,
+  createAdminController,
 };

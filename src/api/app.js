@@ -17,6 +17,7 @@ const {
 const {
   createUsersController,
   loginUsersController,
+  createAdminController,
 } = require('../controllers/usersController');
 
 const {
@@ -57,6 +58,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.put('/recipes/:id/image', upload.single('image'), isTokenValid, postImageController);
+
+app.post('/users/admin', createAdminController);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
