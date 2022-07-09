@@ -1,6 +1,6 @@
 # Welcome to the Cookmaster project repository!!
 
-Project carried out at Trybe. The objective was to create an API where it is possible to register and login users, where only these people will be able to access, modify and delete the recipes they have registered.
+Project carried out on Trybe school. The objective was to create an API where it is possible to register and login users, where only these people will be able to access, modify and delete the recipes they have registered.
 
 After cloning the repository, to see the application running, type the command `npm start` in your terminal.
 
